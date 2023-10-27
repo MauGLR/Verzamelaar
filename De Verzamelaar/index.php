@@ -33,6 +33,7 @@ $conn->close();
         <div class="navbar">
             <a href="#home">Home</a>
             <a href="#games">Games</a>
+            <a href="#contact">Contact</a>
         </div>
     </div>
 
@@ -42,51 +43,44 @@ $conn->close();
             <p>Ontdek en koop de nieuwste en beste games. Krijg gedetailleerde informatie, recensies en meer!</p>
         </div>
     </div>
-
-
     <div id="game-popup" class="popup">
         <div class="popup-content">
-            <!-- Add content for additional attributes here -->
+            <span class="close" onclick="closePopup()">&times;</span>
+            <!-- Add an image tag for the game image -->
+            <img id="popup-image" src="" alt="">
             <h3 id="popup-title"></h3>
             <p id="popup-description"></p>
             <p id="popup-platform"></p>
             <p id="popup-rating"></p>
-            <!-- Add more attributes as needed -->
         </div>
-        <span class="close" onclick="closePopup()">&times;</span>
     </div>
-
     <div class="section" id="games">
         <h2>Onze Games</h2>
         <div class="flex-container">
             <?php
             // Loop through the results and generate a box for each game
             while ($row = $result->fetch_assoc()) {
-                echo '<div class="game-box">';
-                echo '<img src="' . $row["foto"] . '" alt="' . $row["naam"] . '" onclick="openPopup(\'' . $row["naam"] . '\', \'' . $row["beschrijving"] . '\', \'' . $row["platform"] . '\', \'' . $row["rating"] . '\')">';
+                echo '<div class="game-box" onclick="openPopup(' . $row["id"] . ', this)">';
+                echo $row["foto"] . "<br>";
                 echo '<h3>' . $row["naam"] . '</h3>';
-
+                echo '<div class="game-details" data-description="' . $row["beschrijving"] . '" data-platform="' . $row["platform"] . '" data-rating="' . $row["rating"] . '" style="display: none;">';
                 echo '<p>Prijs: ' . $row["prijs"] . ' EUR</p>';
                 echo '<p>Genre: ' . $row["genre"] . '</p>';
                 echo '<p>Uitgever: ' . $row["publisher"] . '</p>';
                 echo '<p>Beschrijving: ' . $row["beschrijving"] . '</p>';
                 echo '<p>Releasedatum: ' . $row["datum"] . '</p>';
-                // Add additional attributes here (e.g., platform, rating, etc.)
                 echo '<p>Platform: ' . $row["platform"] . '</p>';
                 echo '<p>Rating: ' . $row["rating"] . '</p>';
-                // Add more attributes as needed
+                echo '</div>';
                 echo '</div>';
             }
             ?>
         </div>
     </div>
-
     <div class="section" id="contact">
         <h2>Contacteer Ons</h2>
         <!-- Voeg hier contactinformatie en een contactformulier toe -->
     </div>
-
     <script src="./js/popup.js"></script>
-
 </body>
 </html>
