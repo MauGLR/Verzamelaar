@@ -46,41 +46,78 @@ $conn->close();
     <div id="game-popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="closePopup()">&times;</span>
-            <!-- Add an image tag for the game image -->
             <img id="popup-image" src="" alt="">
             <h3 id="popup-title"></h3>
             <p id="popup-description"></p>
             <p id="popup-platform"></p>
             <p id="popup-rating"></p>
+            <div id="popup-buttons">
+            </div>
         </div>
     </div>
+
     <div class="section" id="games">
         <h2>Onze Games</h2>
         <div class="flex-container">
             <?php
             // Loop through the results and generate a box for each game
             while ($row = $result->fetch_assoc()) {
-                echo '<div class="game-box" onclick="openPopup(' . $row["id"] . ', this)">';
-                echo $row["foto"] . "<br>";
+                echo '<div class="game-box">';
+                echo $row["foto"] . '" alt="' . $row["naam"] . '">';
                 echo '<h3>' . $row["naam"] . '</h3>';
-                echo '<div class="game-details" data-description="' . $row["beschrijving"] . '" data-platform="' . $row["platform"] . '" data-rating="' . $row["rating"] . '" style="display: none;">';
-                echo '<p>Prijs: ' . $row["prijs"] . ' EUR</p>';
-                echo '<p>Genre: ' . $row["genre"] . '</p>';
-                echo '<p>Uitgever: ' . $row["publisher"] . '</p>';
-                echo '<p>Beschrijving: ' . $row["beschrijving"] . '</p>';
-                echo '<p>Releasedatum: ' . $row["datum"] . '</p>';
-                echo '<p>Platform: ' . $row["platform"] . '</p>';
-                echo '<p>Rating: ' . $row["rating"] . '</p>';
-                echo '</div>';
+                echo '<button onclick="openPopup(this)" 
+                data-description="' . $row["beschrijving"] . '" 
+                data-platform="' . $row["genre"] . '" 
+                data-rating="' . $row["publisher"] . '" 
+                data-price="' . $row["prijs"] . '" 
+                data-genre="' . $row["genre"] . '" 
+                data-publisher="' . $row["publisher"] . '" 
+                data-release-date="' . $row["datum"] . '"
+                >Zie Meer</button> <br>';
+
+                echo '<button onclick="addToCart(this)" 
+                data-description="' . $row["beschrijving"] . '" 
+                data-platform="' . $row["genre"] . '" 
+                data-rating="' . $row["publisher"] . '" 
+                data-price="' . $row["prijs"] . '" 
+                data-genre="' . $row["genre"] . '" 
+                data-publisher="' . $row["publisher"] . '" 
+                data-release-date="' . $row["datum"] . '"
+                data-naam="' . $row["naam"] . '"
+                >Voeg toe aan winkelwagen</button>';
                 echo '</div>';
             }
             ?>
         </div>
+
+
+        <div class="section" id="cart">
+            <h2>Winkelwagen</h2>
+            <div id="cart-items">
+            </div>
+            <button id="checkout-button" onclick="checkoutPopup()">Checkout</button>
+        </div>
     </div>
-    <div class="section" id="contact">
-        <h2>Contacteer Ons</h2>
-        <!-- Voeg hier contactinformatie en een contactformulier toe -->
+
+    <div id="contact" class="main-contact">
+        <form method="POST">
+            <h1 class="contacteermij">Contact Opnemen</h1>
+            <div class="info">
+                <input class="fname" type="text" name="name" placeholder="Volledige Naam" required>
+                <input type="text" name="email" placeholder="Email" required>
+                <input type="text" name="phone" placeholder="Telefoon Nummer" required>
+                <input type="text" name="company" placeholder="Bedrijfsnaam (heeft u die niet? voer dan 'n.v.t.' in.)" required>
+            </div>
+            <p>Message</p>
+            <div>
+                <textarea rows="4" placeholder="Bericht" name="message"></textarea>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
     </div>
+
     <script src="./js/popup.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>
